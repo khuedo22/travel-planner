@@ -1,10 +1,11 @@
 
 # Travel Planner and Diary
 
-### Description
-This application will allow users to plan and document their travels. Users can use this application to brainstorm
-ideas for their upcoming trip, upload information about their plane tickets, hotel information, and other logistics, create
-a schedule of their entire trip, alter that schedule anytime, and document their experiences during the trip by writing diary entries.
+### *Description*
+This application will allow users to plan and organize their travels. Users can use this application to plan their 
+itinerary, input information about the date, time, duration, transportation information, travel directions, price,
+and any additional information they want to add. Users can edit any information at any time. 
+
 
 This project interests me because there are many places I want to travel to, but everytime I travel,
 I am always disorganized. I lose track of important information and can't decide about what to do during the trip. This travel application will allow me to keep track
@@ -12,12 +13,13 @@ of and organize the information so I am better prepared when travelling and have
 
 
 
-### User Stories:
-- As a user, I want to be able to upload information about my flights, such as departure time, location, terminal, etc
-- As a user, I want to be able to change any flight or accommodation information
-- As a user, I want to be able to create diary entries
-- As a user, I want to be able to view the list of diary entries
+### *User Stories:*
+
+
 - As a user, I want to be able to add events or activities to my schedule
 - As a user, I want to be able to delete events or activities from my schedule
-- As a user, I want to be able to view the times I scheduled for each activity or event.
-
+- As a user, I want to be able to view the times I scheduled for a selected activity or event.
+- As a user, I want to be able to include "core information" about an event (time, location, date), and "extra information" 
+(transportation, price, directions)
+- As a user, I want to be able to edit any information about an event
+- As a user, I want to be able to input information about transportation, such flights, trains, etc
