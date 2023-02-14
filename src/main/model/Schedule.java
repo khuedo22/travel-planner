@@ -2,47 +2,52 @@ package model;
 
 import java.util.HashMap;
 
-// represents a schedule of itinerary with events added
+// represents a week schedule of itinerary with events
 public class Schedule {
     private HashMap<Weekday, HashMap<Double, Event>> weekSchedule;
 
 
     // Constructor
-    // EFFECTS: constructs new HashMaps for each field
+    // EFFECTS: constructs an empty HashMap representing a week
     public Schedule() {
         this.weekSchedule = new HashMap<>();
 
     }
 
-    // REQUIRES: event can not be in current schedule, startTime slot must be empty
+    // REQUIRES: event can not be in current schedule, startTime slot must be empty, startTime cannot overlap with
+    // endTime of another event in schedule
     // MODIFIES: this
-    // EFFECTS: adds event with given specifications to the correct startTime slot and week day
-    public void addEvent(String name, String description, double startTime, double endTime, Weekday weekday, int day,
-                         Month month, int year) {
-        // check if weekSchedule contains the given weekday key
-        // if it does, then we will modify that existing hashmap in that key by calling get() method,
-        // and putting the event in that hashmap at the given startTime
-        // if weekSchedule does not contain the given key, then we will create a new hashmap, put the event in that
-        // hashmap at the given startTime, then put the hashmap in weekSchedule with the key being the given weekday.
-        Event e = new Event(name, description, startTime, endTime, weekday, day, month, year);
-        if (this.weekSchedule.containsKey(weekday)) {
-            HashMap<Double, Event> d = this.weekSchedule.get(weekday);
-            d.put(startTime, e);
+    // EFFECTS: adds given event to corresponding startTime slot and weekday
+    public void addEvent(Event event) {
+
+        if (this.weekSchedule.containsKey(event.getWeekday())) {
+            HashMap<Double, Event> d = this.weekSchedule.get(event.getWeekday());
+            d.put(event.getStartTime(), event);
         } else {
             HashMap<Double, Event> d = new HashMap<>();
-            d.put(startTime, e);
-            this.weekSchedule.put(weekday, d);
+            d.put(event.getStartTime(), event);
+            this.weekSchedule.put(event.getWeekday(), d);
         }
     }
 
-    public void removeEvent(Weekday weekday, double time) {
+    // REQUIRES: event must be somewhere in weekSchedule
+    // EFFECTS: remove given event from weekSchedule
+    public void removeEvent(Event event) {
+        Weekday weekday = event.getWeekday();
         HashMap<Double, Event> d = this.weekSchedule.get(weekday);
-        d.remove(time);
+        double time = event.getStartTime();
+        d.remove(time, event);
         if (d.isEmpty()) {
             this.weekSchedule.remove(weekday);
         }
     }
 
+    // REQUIRES: given Weekday and startTime slot are not empty and contain an event
+    // EFFECTS: returns the event at the given Weekday and startTime slot
+    public Event getEvent(Weekday weekday, double startTime) {
+        HashMap<Double, Event> d = this.weekSchedule.get(weekday);
+        return d.get(startTime);
+    }
 
 
     // getters

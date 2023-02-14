@@ -1,6 +1,6 @@
 package model;
 
-// represents an event or activity that a user may participate in
+// represents an event or activity that a user may schedule or plan
 public class Event {
     private String eventName;
     private String description;
@@ -13,13 +13,14 @@ public class Event {
 
     // extra info
     private String transportationInfo;
-    private String directions;
     private double price;
     private String additionalNotes;
 
 
-    // REQUIRES: 0.0 <= startTime < 24.0, decimal places can only be .30 or .00 day >= 1 and day <= 31, year > 0
-    // EFFECTS: constructs an event class with the given name, description, and startTime
+    // REQUIRES: 0.0 <= startTime and endTime < 24.0, decimal places can only be .30 or .00 day >= 1 and day <= 31,
+    // year > 0
+    // EFFECTS: constructs an event class with the given name, description, startTime and endTime, and "no info" for
+    // transportationInfo, additionalNotes, and price = 0
     public Event(String name, String description, double startTime, double endTime, Weekday weekday, int day,
                  Month month, int year) {
         this.eventName = name;
@@ -31,20 +32,12 @@ public class Event {
         this.month = month;
         this.year = year;
         this.transportationInfo = "no info";
-        this.directions = "no info";
         this.price = 0;
         this.additionalNotes = "no info";
     }
 
-    // REQUIRES: price >= 0.0
-    // EFFECTS: adds additional information to event if users would like
-    public void addAdditionalInfo(String transportation, String directions, double price) {
-        this.transportationInfo = transportation;
-        this.directions = directions;
-        this.price = price;
-    }
-
     // getters
+
     // EFFECTS: returns the event name
     public String getEventName() {
         return this.eventName;
@@ -55,9 +48,14 @@ public class Event {
         return this.description;
     }
 
-    // EFFECTS: returns the time of event
+    // EFFECTS: returns the start time of event in format xx.xx (24 hr style)
     public double getStartTime() {
         return this.startTime;
+    }
+
+    // EFFECTS: returns the end time of event in format xx.xx (24 hr style)
+    public double getEndTime() {
+        return this.endTime;
     }
 
     // EFFECTS: returns the weekday of event
@@ -65,7 +63,7 @@ public class Event {
         return this.weekday;
     }
 
-    // EFFECTS: returns the day of event
+    // EFFECTS: returns the day (number) of event
     public int getDay() {
         return this.day;
     }
@@ -79,24 +77,15 @@ public class Event {
     public int getYear() {
         return this.year;
     }
-    // EFFECTS: returns the date of the event as a string with weekday, month, day, and year
 
-    public String getDate() {
-        return weekday.toString() + " " + month.toString() + " " + Integer.toString(day) + " "
-                + Integer.toString(year);
-    }
 
-    // EFFECTS: returns transportation information
+    // EFFECTS: returns transportation information of an event
     public String getTransportationInfo() {
         return this.transportationInfo;
     }
 
-    // EFFECTS: returns direction information
-    public String getDirections() {
-        return this.directions;
-    }
 
-    //EFFECTS: returns price
+    //EFFECTS: returns price of an event
     public double getPrice() {
         return this.price;
     }
@@ -107,17 +96,16 @@ public class Event {
     }
 
 
-    // EFFECTS: returns all information of event in the following form
-    public String getEventInfo() {
+    // EFFECTS: returns information about event name, description, transportation and price of event in format below
+    public String getSomeEventInfo() {
         String eventName = this.eventName;
-        String date = getDate();
-        String time = Double.toString(this.startTime);
         String description = this.description;
         String transportation = this.transportationInfo;
-        String directions = this.directions;
         String price = Double.toString(this.price);
-        return eventName + "\nDate: " + date + "\nTime: " + time + "\nDescription: " + description
-                + "\nTransportation: " + transportation + "\nDirections: " + directions + "\nPrice: " + price;
+        String addNotes = this.additionalNotes;
+
+        return "Event: " + eventName + "\nDescription: " + description
+                + "\nTransportation: " + transportation + "\nPrice: " + price + "\nAdditional Notes: " + addNotes;
     }
 
     // editors
@@ -133,38 +121,25 @@ public class Event {
         this.description = newDescription;
     }
 
-    // REQUIRES: newTime >= 0.0 and < 24.00, decimal places must be <60
+    // REQUIRES: new times must be >= 0.00 and < 24.00, decimal places must be either .00 or .30
     // MODIFIES: this
-    // EFFECTS: sets time to newTime
-    public void editTime(double newTime) {
-        this.startTime = newTime;
+    // EFFECTS: sets time to newStartTime
+    public void editTime(double newStartTime, double newEndTime) {
+        this.startTime = newStartTime;
+        this.endTime = newEndTime;
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets a new weekday for the event
-    public void editWeekday(Weekday newWeekday) {
-        this.weekday = newWeekday;
-    }
 
+    // REQUIRES: 1 <= newDay <= 31, newYear > 0
     // MODIFIES: this
-     // EFFECTS: sets a new month for the event
-    public void editMonth(Month newMonth) {
+    // EFFECTS: sets the new date (Weekday, Month, Day, Year) for the event
+    public void editDate(Month newMonth, Weekday newWeekday, int newDay, int newYear) {
         this.month = newMonth;
-    }
-
-    // REQUIRES: newDay >= 1 and newDay <= 31
-    // MODIFIES: this
-    // EFFECTS: sets a new day for the event
-    public void editDay(int newDay) {
+        this.weekday = newWeekday;
         this.day = newDay;
-    }
-
-    // REQUIRES: newYear > 0
-    // MODIFIES: this
-    // EFFECTS: sets a new year for the event
-    public void editYear(int newYear) {
         this.year = newYear;
     }
+
 
     // MODIFIES: this
     // EFFECTS: sets new transportation info
@@ -172,11 +147,6 @@ public class Event {
         this.transportationInfo = newTransportation;
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets new direction information
-    public void editDirection(String newDirection) {
-        this.directions = newDirection;
-    }
 
     // REQUIRES: newPrice >= 0.0
     // MODIFIES: this
@@ -185,6 +155,12 @@ public class Event {
         this.price = newPrice;
     }
 
+
+    // MODIFIES: this
+    // EFFECTS: sets new addtional notes
+    public void editAdditionalNotes(String newNotes) {
+        this.additionalNotes = newNotes;
+    }
 
 
 }
