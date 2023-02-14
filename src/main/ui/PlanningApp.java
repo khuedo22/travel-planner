@@ -261,7 +261,7 @@ public class PlanningApp {
         ArrayList<Weekday> weekdays = listOfWeekdays();
         for (Weekday weekday : weekdays) {
             if (currentSchedule.containsKey(weekday)) {
-                System.out.println("Weekday: " + convertWeekdayToString(weekday));
+                System.out.println("Weekday: " + weekday.toString());
                 HashMap<Double, Event> daySchedule = schedule.getWeekSchedule().get(weekday);
                 for (double startTime : daySchedule.keySet()) {
                     Event event = daySchedule.get(startTime);
@@ -328,7 +328,7 @@ public class PlanningApp {
     }
 
     // REQUIRES: chosen must be a valid string representing a month
-    // EFFECTS: returns the month associated with chosen
+    // EFFECTS: returns the month associated with chosen.
     private Month convertMonth(String chosen) {
         if (chosen.equals("jan")) {
             return Month.January;
@@ -342,7 +342,13 @@ public class PlanningApp {
             return Month.May;
         } else if (chosen.equals("jun")) {
             return Month.June;
-        } else if (chosen.equals("jul")) {
+        } else {
+            return convertRestMonth(chosen);
+        }
+    }
+
+    private Month convertRestMonth(String chosen) {
+        if (chosen.equals("jul")) {
             return Month.July;
         } else if (chosen.equals("aug")) {
             return Month.August;
@@ -354,26 +360,6 @@ public class PlanningApp {
             return Month.November;
         } else {
             return Month.December;
-        }
-    }
-
-
-    // EFFECTS: returns the string that spells out the given Weekday
-    private String convertWeekdayToString(Weekday weekday) {
-        if (weekday.equals(Monday)) {
-            return "Monday";
-        } else if (weekday.equals(Tuesday)) {
-            return "Tuesday";
-        } else if (weekday.equals(Wednesday)) {
-            return "Wednesday";
-        } else if (weekday.equals(Thursday)) {
-            return "Thursday";
-        } else if (weekday.equals(Friday)) {
-            return "Friday";
-        } else if (weekday.equals(Saturday)) {
-            return "Saturday";
-        } else {
-            return "Sunday";
         }
     }
 
