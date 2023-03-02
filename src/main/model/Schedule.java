@@ -1,9 +1,13 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.JsonWritable;
+
 import java.util.HashMap;
 
 // represents a week schedule of itinerary with events
-public class Schedule {
+public class Schedule implements JsonWritable {
     private HashMap<Weekday, HashMap<Double, Event>> weekSchedule;
 
 
@@ -58,4 +62,36 @@ public class Schedule {
     }
 
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Week Schedule", weekScheduleToJson());
+
+        return json;
+    }
+
+    private JSONArray weekScheduleToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Weekday weekday : weekSchedule.keySet()) {
+            HashMap<Double, Event> daySchedule = weekSchedule.get(weekday);
+    
+            jsonArray.put(dayScheduleToJson(daySchedule, weekday));
+        }
+        return jsonArray;
+    }
+
+    private JSONObject dayScheduleToJson(HashMap<Double, Event> daySchedule, Weekday weekday) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(weekday.toString(), eventToJson(daySchedule, weekday));
+        return jsonObject;
+    }
+
+    private JSONArray eventToJson(HashMap<Double, Event> daySchedule, Weekday weekday) {
+        JSONArray jsonArray = new JSONArray();
+        for (double time : daySchedule.keySet()) {
+            jsonArray.put(getEvent(weekday, time).toJson());
+        }
+        return jsonArray;
+    }
 }

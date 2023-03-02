@@ -23,4 +23,6 @@ of and organize the information so I am better prepared when travelling and have
 - As a user, I want to be able to include "core information" about an event (time, location, date), and "extra information" 
 (transportation, price, directions)
 - As a user, I want to be able to edit any information about an event
+- As a user, I want to be able to save the schedule I have created with all the events and its details
+- As a user, I want to be able to open my saved schedule I created earlier
 

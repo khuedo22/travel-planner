@@ -4,7 +4,11 @@ import model.Event;
 import model.Month;
 import model.Schedule;
 import model.Weekday;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -15,11 +19,16 @@ import static model.Weekday.*;
 // travel planning application
 public class PlanningApp {
 
+    private static final String JSON_STORE = "./data/schedule.json";
     private Schedule schedule;
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the planning application
-    public PlanningApp() {
+    public PlanningApp() throws FileNotFoundException {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runPlanning();
     }
 
@@ -120,7 +129,7 @@ public class PlanningApp {
         double newEventEndTime = input.nextDouble();
         System.out.println("Enter the weekday");
         System.out.println("\nmon - Monday \ntue - Tuesday \nwed - Wednesday \nthurs - Thurdsay "
-                + "\nfri - Friday \nsat - Saturday \nsum - Sunday");
+                + "\nfri - Friday \nsat - Saturday \nsun - Sunday");
         Weekday newEventWeekday = convertWeekday(input.next());
         System.out.println("Enter the day of the month: ");
         int newEventDay = input.nextInt();
@@ -360,6 +369,27 @@ public class PlanningApp {
             return Month.November;
         } else {
             return Month.December;
+        }
+    }
+
+
+    private void saveSchedule() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(schedule);
+            jsonWriter.close();
+            System.out.println("Saved schedule to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    private void loadSchedule() {
+        try {
+            schedule = jsonReader.read();
+            System.out.println("Loaded schedule from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 

@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.JsonWritable;
+
 // represents an event or activity that a user may schedule or plan
-public class Event {
+public class Event implements JsonWritable {
     private String eventName;
     private String description;
     private double startTime;
@@ -157,10 +160,26 @@ public class Event {
 
 
     // MODIFIES: this
-    // EFFECTS: sets new addtional notes
+    // EFFECTS: sets new additional notes
     public void editAdditionalNotes(String newNotes) {
         this.additionalNotes = newNotes;
     }
 
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("event name", eventName);
+        jsonObject.put("description", description);
+        jsonObject.put("start time", startTime);
+        jsonObject.put("end time", endTime);
+        jsonObject.put("weekday", weekday);
+        jsonObject.put("day", day);
+        jsonObject.put("month", month);
+        jsonObject.put("year", year);
+        jsonObject.put("transportation info", transportationInfo);
+        jsonObject.put("price", price);
+        jsonObject.put("additional notes", additionalNotes);
+        return jsonObject;
+    }
 }
