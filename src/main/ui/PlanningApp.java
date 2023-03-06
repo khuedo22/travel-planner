@@ -72,6 +72,14 @@ public class PlanningApp {
             removeEvent();
             System.out.println("Your event has been removed");
             viewSchedule();
+        } else if (choice.equals("v")) {
+            viewSchedule();
+        } else if (choice.equals("l")) {
+            loadSchedule();
+            viewSchedule();
+        } else if (choice.equals("save")) {
+            saveSchedule();
+            viewSchedule();
         } else {
             System.out.println("Sorry, your command could not be computed");
         }
@@ -134,7 +142,7 @@ public class PlanningApp {
         System.out.println("Enter the day of the month: ");
         int newEventDay = input.nextInt();
         System.out.println("Enter the month: ");
-        System.out.println("\njan - January \nfeb - February \nar - March \napr - April \nmay - May \njun - June"
+        System.out.println("\njan - January \nfeb - February \nmar - March \napr - April \nmay - May \njun - June"
                 + "\njul - July \naug - August \nsept - September \noct - October \nnov - November \ndec - December");
         Month newEventMonth = convertMonth(input.next());
         System.out.println("Enter the year: ");
@@ -158,6 +166,7 @@ public class PlanningApp {
         }
     }
 
+    // EFFECTS: executes the chosen edit
     private void processChosenEdit(String chosenEdit, Event event) {
         if (chosenEdit.equals("name")) {
             processEditName(event);
@@ -215,7 +224,7 @@ public class PlanningApp {
 
         System.out.println("Enter the new weekday");
         System.out.println("\nmon - Monday \ntue - Tuesday \nwed - Wednesday \nthurs - Thurdsay"
-                + "\nfri - Friday \nsat - Saturday \nsum - Sunday");
+                + "\nfri - Friday \nsat - Saturday \nsun - Sunday");
         Weekday newWeekday = convertWeekday(input.next());
         System.out.println("Enter the new month");
         System.out.println("\njan - January \nfeb - February \nmar - March \napr - April \nmay - May \njun - June"
@@ -260,7 +269,8 @@ public class PlanningApp {
     // EFFECTS: displays the application's main menu that list the options
     private void displayMenu() {
         System.out.println("Welcome to Travel Planner! What would you like to do?");
-        System.out.println("s - schedule an event \ne - edit an event \nr - remove an event \nq - quit");
+        System.out.println("s - schedule an event \ne - edit an event \nr - remove an event \nv - view schedule"
+                + "\nq - quit \nl - load schedule \nsave - save schedule");
     }
 
     // EFFECTS: displays the current schedule to the user, with all the event's information
@@ -303,7 +313,7 @@ public class PlanningApp {
     // EFFECTS: returns the event based on user's sepcified weekday and time
     public Event getSelectedEvent() {
         System.out.println("Enter weekday of the event you want to select: \nmon - Monday \ntue - Tuesday "
-                + "\nwed - Wednesday \nthurs - Thurdsay \nfri - Friday \nsat - Saturday \nsum - Sunday");
+                + "\nwed - Wednesday \nthurs - Thurdsay \nfri - Friday \nsat - Saturday \nsun - Sunday");
         String chosenDay = input.next();
         chosenDay.toLowerCase();
         Weekday day = convertWeekday(chosenDay);
@@ -337,7 +347,7 @@ public class PlanningApp {
     }
 
     // REQUIRES: chosen must be a valid string representing a month
-    // EFFECTS: returns the month associated with chosen.
+    // EFFECTS: returns the month associated with chosen for the first half.
     private Month convertMonth(String chosen) {
         if (chosen.equals("jan")) {
             return Month.January;
@@ -356,6 +366,8 @@ public class PlanningApp {
         }
     }
 
+    // REQUIRES: chosen must be a valid string representing a month
+    // EFFECTS: returns the month associated with chosen for the last half.
     private Month convertRestMonth(String chosen) {
         if (chosen.equals("jul")) {
             return Month.July;
@@ -372,7 +384,9 @@ public class PlanningApp {
         }
     }
 
-
+    // method is based on saveWorkRoom method in WorkRoomApp class in JsonSerializationDemo
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    // EFFECTS: saves the schedule as a Json file
     private void saveSchedule() {
         try {
             jsonWriter.open();
@@ -384,6 +398,10 @@ public class PlanningApp {
         }
     }
 
+    // method is based on loadWorkRoom method in WorkRoomApp class in JsonSerializationDemo
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    // MODIFIES: this
+    // EFFECTS: loads the schedule from a Json file
     private void loadSchedule() {
         try {
             schedule = jsonReader.read();

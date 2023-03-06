@@ -7,7 +7,7 @@ public class Main {
         try {
             new PlanningApp();
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("File not found, can't run application");
         }
     }
 }

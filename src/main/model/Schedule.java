@@ -70,6 +70,7 @@ public class Schedule implements JsonWritable {
         return json;
     }
 
+    // EFFECTS: converts the schedule into a Json array
     private JSONArray weekScheduleToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -81,12 +82,14 @@ public class Schedule implements JsonWritable {
         return jsonArray;
     }
 
+    // EFFECTS: converts the day schedule into a Json object
     private JSONObject dayScheduleToJson(HashMap<Double, Event> daySchedule, Weekday weekday) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(weekday.toString(), eventToJson(daySchedule, weekday));
         return jsonObject;
     }
 
+    // EFFECTS: converts all the events in a day into a Json array
     private JSONArray eventToJson(HashMap<Double, Event> daySchedule, Weekday weekday) {
         JSONArray jsonArray = new JSONArray();
         for (double time : daySchedule.keySet()) {

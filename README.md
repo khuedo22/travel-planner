@@ -1,5 +1,5 @@
 
-# Travel Planner and Diary
+# Travel Planner 
 
 ### *Description*
 This application will allow users to plan and organize their travels. Users can use this application to plan their 
@@ -19,9 +19,6 @@ of and organize the information so I am better prepared when travelling and have
 - As a user, I want to be able to add multiple events to my schedule
 - As a user, I want to be able to delete events from my schedule
 - As a user, I want to be able to view the times I scheduled for a selected activity or event.
-- As a user, I want to view all the information I inputted for the events I created
-- As a user, I want to be able to include "core information" about an event (time, location, date), and "extra information" 
-(transportation, price, directions)
 - As a user, I want to be able to edit any information about an event
 - As a user, I want to be able to save the schedule I have created with all the events and its details
 - As a user, I want to be able to open my saved schedule I created earlier
