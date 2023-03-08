@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +20,7 @@ public class JsonReaderTest {
         JsonReader reader = new JsonReader("./data/nothing.json");
         try {
             Schedule schedule = reader.read();
-            fail("IOException should be thrown");
+            fail("IOException should have be thrown");
         } catch (IOException e) {
             // this should pass
         }
@@ -34,7 +33,7 @@ public class JsonReaderTest {
             Schedule schedule = reader.read();
             assertEquals(0, schedule.getWeekSchedule().size());
         } catch (IOException e) {
-            fail("Couldn't read from file");
+            fail("IOException should not have been thrown");
         }
     }
 
@@ -46,20 +45,20 @@ public class JsonReaderTest {
 
             HashMap<Weekday, HashMap<Double, Event>> weekSchedule = schedule.getWeekSchedule();
             assertEquals(2, weekSchedule.size());
-            assertTrue(weekSchedule.containsKey(Weekday.Monday));
+            assertTrue(weekSchedule.containsKey(Weekday.Tuesday));
             assertTrue(weekSchedule.containsKey(Weekday.Wednesday));
 
-            HashMap<Double, Event> monday = weekSchedule.get(Weekday.Monday);
-            assertEquals(1, monday.size());
-            assertEquals("flying", monday.get(13.30).getEventName());
+            HashMap<Double, Event> tuesday = weekSchedule.get(Weekday.Tuesday);
+            assertEquals(1, tuesday.size());
+            assertEquals("flying", tuesday.get(12.30).getEventName());
 
             HashMap<Double, Event> wednesday = weekSchedule.get(Weekday.Wednesday);
             assertEquals(2, wednesday.size());
-            assertEquals("painting", wednesday.get(9.00).getEventName());
-            assertEquals("gym", wednesday.get(14.30).getEventName());
+            assertEquals("jogging", wednesday.get(13.00).getEventName());
+            assertEquals("restaurant", wednesday.get(14.0).getEventName());
 
         } catch (IOException e) {
-            fail("Couldn't read from file");
+            fail("IOException should not have been thrown");
         }
     }
 }

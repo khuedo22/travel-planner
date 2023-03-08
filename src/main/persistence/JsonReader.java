@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static java.lang.Integer.parseInt;
 
 // represents a reader that reads a Json file representing a schedule
 public class JsonReader {
@@ -29,6 +28,8 @@ public class JsonReader {
         this.source = source;
     }
 
+    // EFFECTS: reads the Json file representing a schedule and returns the schedule. If file cannot be read,
+    // throws IOException
     public Schedule read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
@@ -56,7 +57,7 @@ public class JsonReader {
     }
 
     // MODIFIES: schedule
-    // EFFECTS: extracts day schedules from Json object and adds it to schedule that is being read
+    // EFFECTS: extracts all day schedules from Json object and adds it to schedule that is being read
     private void addDaySchedules(Schedule schedule, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("Week Schedule");
         for (Object json : jsonArray) {

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +22,7 @@ public class JsonWriterTest {
             Schedule schedule = new Schedule();
             JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
             writer.open();
-            fail("IOException was expected");
+            fail("IOException should have been thrown");
         } catch (IOException e) {
             // pass
         }
@@ -43,7 +42,7 @@ public class JsonWriterTest {
             HashMap<Weekday, HashMap<Double, Event>> weekSchedule = schedule.getWeekSchedule();
             assertEquals(0, weekSchedule.size());
         } catch (IOException e) {
-            fail("Exception should not have been thrown");
+            fail("IOException should not have been thrown");
         }
     }
 
@@ -80,7 +79,7 @@ public class JsonWriterTest {
 
 
         } catch (IOException e) {
-            fail("Exception should not have been thrown");
+            fail("IOException should not have been thrown");
         }
     }
 }

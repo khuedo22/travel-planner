@@ -22,13 +22,13 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: opens the writer. If writer of destination file cannot be opened, throws FileNotFoundException
+    // EFFECTS: opens the writer. If writer of destination file fails to open, throws FileNotFoundException
     public void open() throws FileNotFoundException {
         writer = new PrintWriter(new File(destination));
     }
 
     // MODIFIES: this
-    // EFFECTS: writes a Json file representing a schedule
+    // EFFECTS: writes a Json file representing given schedule
     public void write(Schedule s) {
         JSONObject json = s.toJson();
         saveToFile(json.toString(TAB));

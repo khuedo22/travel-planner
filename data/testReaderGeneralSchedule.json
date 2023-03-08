@@ -1,40 +1,40 @@
 {"Week Schedule": [
     {"Wednesday": [
         {
-            "event name": "painting",
-            "end time": 11.3,
+            "event name": "jogging",
+            "end time": 14.3,
             "month": "March",
             "year": 2023,
             "price": 0,
-            "start time": 9,
+            "start time": 13.0,
             "weekday": "Wednesday",
-            "description": "painting lessons",
+            "description": "jogging around the park",
             "transportation info": "no info",
-            "day": 12,
+            "day": 13,
             "additional notes": "no info"
         },
         {
-            "event name": "gym",
-            "end time": 15,
+            "event name": "restaurant",
+            "end time": 15.30,
             "month": "March",
             "year": 2023,
-            "price": 0,
-            "start time": 14.3,
+            "price": 12,
+            "start time": 14.0,
             "weekday": "Wednesday",
-            "description": "exercising for health",
+            "description": "eating good food",
             "transportation info": "no info",
             "day": 12,
             "additional notes": "no info"
         }
     ]},
-    {"Monday": [{
+    {"Tuesday": [{
         "event name": "flying",
         "end time": 15.3,
         "month": "March",
         "year": 2023,
         "price": 0,
-        "start time": 13.3,
-        "weekday": "Monday",
+        "start time": 12.3,
+        "weekday": "Tuesday",
         "description": "becoming a bird",
         "transportation info": "no info",
         "day": 10,

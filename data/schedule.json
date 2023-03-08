@@ -1,13 +1,13 @@
-{"Week Schedule": [{"Sunday": [{
-      "event name": "dog",
+{"Week Schedule": [{"Monday": [{
+      "event name": "a",
       "end time": 13,
       "month": "March",
       "year": 2023,
       "price": 0,
       "start time": 12,
-      "weekday": "Sunday",
-      "description": "walking dog",
+      "weekday": "Monday",
+      "description": "a",
       "transportation info": "no info",
-      "day": 5,
+      "day": 12,
       "additional notes": "no info"
 }]}]}

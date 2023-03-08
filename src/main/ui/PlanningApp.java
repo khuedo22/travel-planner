@@ -25,6 +25,7 @@ public class PlanningApp {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    // MODIFIES: this
     // EFFECTS: runs the planning application
     public PlanningApp() throws FileNotFoundException {
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -32,7 +33,8 @@ public class PlanningApp {
         runPlanning();
     }
 
-    // initializes new schedule, takes user input
+    // MODIFIES: this
+    // EFFECTS: initializes new schedule, takes user input
     private void runPlanning() {
         String choice;
         boolean running = true;
@@ -60,7 +62,7 @@ public class PlanningApp {
 
     // EFFEECTS: executes user's input choice
     private void executeChoice(String choice) {
-        if (choice.equals("s")) {
+        if (choice.equals("a")) {
             scheduleEvent();
             System.out.println("Your event has been scheduled");
             viewSchedule();
@@ -77,7 +79,7 @@ public class PlanningApp {
         } else if (choice.equals("l")) {
             loadSchedule();
             viewSchedule();
-        } else if (choice.equals("save")) {
+        } else if (choice.equals("s")) {
             saveSchedule();
             viewSchedule();
         } else {
@@ -107,6 +109,7 @@ public class PlanningApp {
 
     }
 
+    // MODIFIES: Event
     // EFFECTS: adds information about tranportation, price, and additional notes if user choses to
     public void addAdditionalInfo(Event e) {
         System.out.println("Do you want to add any additional information?");
@@ -152,6 +155,7 @@ public class PlanningApp {
         return e;
     }
 
+    // MODIFIES: Event
     // EFFECTS: takes in user command for what they want to edit
     private void editEvent() {
         if (schedule.getWeekSchedule().isEmpty()) {
@@ -166,6 +170,7 @@ public class PlanningApp {
         }
     }
 
+    // MODIFIES: Event
     // EFFECTS: executes the chosen edit
     private void processChosenEdit(String chosenEdit, Event event) {
         if (chosenEdit.equals("name")) {
@@ -192,7 +197,7 @@ public class PlanningApp {
     }
 
 
-    // MODIFIES: this
+    // MODIFIES: this, Event
     // EFFECTS: update the additional information of an event to the user's input
     private void processEditAddInfo(Event event) {
         System.out.println("Enter the new additional information");
@@ -201,7 +206,7 @@ public class PlanningApp {
 
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, Event
     // EFFECTS: update the price of a chosen event to the user's input
     private void processEditPrice(Event event) {
         System.out.println("Enter the new price");
@@ -210,7 +215,7 @@ public class PlanningApp {
     }
 
 
-    // MODIFIES: this
+    // MODIFIES: this, Event
     // EFFECTS: update the transportation of a chosen event to the user's input
     private void processEditTrans(Event event) {
         System.out.println("Enter the new transportation");
@@ -218,7 +223,7 @@ public class PlanningApp {
         event.editTransportation(newTransportation);
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, Event
     // EFFECTS: update the date (weekday, month, day, year) of a chosen event to the user's input
     private void processEditDate(Event event) {
 
@@ -239,7 +244,7 @@ public class PlanningApp {
     }
 
 
-    // MODIFIES: this
+    // MODIFIES: this, Event
     // EFFECTS: update the start and end time of a chosen event to the user's input
     private void processEditTime(Event event) {
         System.out.println("Enter the new start time");
@@ -249,7 +254,7 @@ public class PlanningApp {
 
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, Event
     // EFFECTS: updates the description of a chosen event to the user's input
     private void processEditDes(Event event) {
         System.out.println("Enter the new description");
@@ -257,7 +262,7 @@ public class PlanningApp {
         event.editDescription(newDescription);
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, Event
     // EFFECTS: updates the name of a chosen event to the user's input
     private void processEditName(Event event) {
         System.out.println("Enter the new name");
@@ -269,8 +274,8 @@ public class PlanningApp {
     // EFFECTS: displays the application's main menu that list the options
     private void displayMenu() {
         System.out.println("Welcome to Travel Planner! What would you like to do?");
-        System.out.println("s - schedule an event \ne - edit an event \nr - remove an event \nv - view schedule"
-                + "\nq - quit \nl - load schedule \nsave - save schedule");
+        System.out.println("a - add an event \ne - edit an event \nr - remove an event \nv - view schedule"
+                + "\nq - quit \nl - load schedule \ns - save schedule");
     }
 
     // EFFECTS: displays the current schedule to the user, with all the event's information
@@ -386,6 +391,7 @@ public class PlanningApp {
 
     // method is based on saveWorkRoom method in WorkRoomApp class in JsonSerializationDemo
     // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    // MODIFIES: this
     // EFFECTS: saves the schedule as a Json file
     private void saveSchedule() {
         try {
@@ -394,7 +400,7 @@ public class PlanningApp {
             jsonWriter.close();
             System.out.println("Saved schedule to " + JSON_STORE);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE);
+            System.out.println("Unable to save file to: " + JSON_STORE);
         }
     }
 
@@ -407,7 +413,7 @@ public class PlanningApp {
             schedule = jsonReader.read();
             System.out.println("Loaded schedule from " + JSON_STORE);
         } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
+            System.out.println("Unable to load file from: " + JSON_STORE);
         }
     }
 
