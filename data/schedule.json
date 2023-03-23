@@ -1,13 +1,28 @@
-{"Week Schedule": [{"Monday": [{
-      "event name": "a",
-      "end time": 13,
-      "month": "March",
-      "year": 2023,
-      "price": 0,
-      "start time": 12,
-      "weekday": "Monday",
-      "description": "a",
-      "transportation info": "no info",
-      "day": 12,
-      "additional notes": "no info"
-}]}]}
+{"Week Schedule": [{"Thursday": [
+      {
+            "event name": "phase 2",
+            "end time": 14,
+            "month": "March",
+            "year": 2023,
+            "price": 0,
+            "start time": 13,
+            "weekday": "Thursday",
+            "description": "grading phase 2",
+            "transportation info": "no info",
+            "day": 16,
+            "additional notes": "no info"
+      },
+      {
+            "event name": "lab",
+            "end time": 12,
+            "month": "March",
+            "year": 2023,
+            "price": 0,
+            "start time": 11.3,
+            "weekday": "Thursday",
+            "description": "grading phase 2",
+            "transportation info": "no info",
+            "day": 16,
+            "additional notes": "no info"
+      }
+]}]}
