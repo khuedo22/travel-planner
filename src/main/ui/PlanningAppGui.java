@@ -6,12 +6,12 @@ import model.Schedule;
 import model.Weekday;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 import static model.Weekday.*;
 
@@ -23,6 +23,7 @@ public class PlanningAppGui extends JFrame {
     private JButton loadButton;
     private JButton saveButton;
     private JButton viewScheduleButton;
+    private JButton removeButton;
     private Schedule schedule;
 
 
@@ -46,21 +47,24 @@ public class PlanningAppGui extends JFrame {
     private void initializeAction() {
         viewScheduleButton.addActionListener(new ViewScheduleAction());
         addEventButton.addActionListener(new AddEventAction());
+        removeButton.addActionListener(new RemoveEventAction());
     }
 
-    // ActionListener for ViewSchedule function
-    private class ViewScheduleAction implements ActionListener {
+
+    private class RemoveEventAction implements ActionListener {
+
+        JLabel success;
+        JButton selectButton;
+        JPanel timePanel;
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JFrame scheduleFrame = new JFrame("Schedule");
-            scheduleFrame.setSize(600, 300);
-            scheduleFrame.setVisible(true);
-            scheduleFrame.setSize(300, 600);
-            JPanel schedulePanel = new JPanel();
-            schedulePanel.setLayout(new BoxLayout(schedulePanel, BoxLayout.LINE_AXIS));
-            scheduleFrame.add(schedulePanel);
-
+            JFrame removeFrame = new JFrame("Remove Event");
+            removeFrame.setSize(700, 300);
+            removeFrame.setVisible(true);
+            JPanel optionsPanel = new JPanel();
+            optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.LINE_AXIS));
+            removeFrame.add(optionsPanel);
             List<Weekday> weekdays = new ArrayList<>();
             weekdays.add(Monday);
             weekdays.add(Tuesday);
@@ -70,12 +74,174 @@ public class PlanningAppGui extends JFrame {
             weekdays.add(Saturday);
             weekdays.add(Sunday);
 
-            HashMap<Weekday, HashMap<double, Event>> weekSchedule = schedule.getWeekSchedule();
+            HashMap<Weekday, HashMap<Double, Event>> weekSchedule = schedule.getWeekSchedule();
+            Set<Weekday> weekdaysInSchedule = weekSchedule.keySet();
+
+            for (Weekday weekday : weekdays) {
+                JPanel dayPanel = new JPanel();
+                TitledBorder dayTitle = BorderFactory.createTitledBorder(weekday.toString());
+                dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.PAGE_AXIS));
+                dayPanel.setBorder(dayTitle);
+                dayPanel.setPreferredSize(new Dimension(100, 300));
+                optionsPanel.add(dayPanel);
+                if (weekdaysInSchedule.contains(weekday)) {
+                    HashMap<Double, Event> daySchedule = weekSchedule.get(weekday);
+                    Set<Double> timeSet = daySchedule.keySet();
+                    List<Double> timeList = new ArrayList<>(timeSet);
+                    Collections.sort(timeList);
+                    for (Double time : timeList) {
+                        Event event = daySchedule.get(time);
+                        timePanel = new JPanel();
+                        timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.PAGE_AXIS));
+                        dayPanel.add(timePanel);
+                        JLabel timeInfo = new JLabel(convertTime(event.getStartTime()));
+                        timePanel.add(timeInfo);
+                        JLabel eventName = new JLabel(event.getEventName());
+                        timePanel.add(eventName);
+                        JLabel description = new JLabel(event.getDescription());
+                        timePanel.add(description);
+                        //todo figure out time formats
+                        createTimeJLabels(timePanel, event.getMonth().toString());
+                        createTimeJLabels(timePanel, Integer.toString(event.getDay()));
+                        createTimeJLabels(timePanel, Integer.toString(event.getYear()));
+                        selectButton = new JButton("Select");
+                        selectButton.addActionListener(new RemoveEvent(event));
+                        timePanel.add(selectButton);
+                        success = new JLabel("");
+                        timePanel.add(success);
+
+                    }
+                }
+
+            }
+        }
+
+
+
+        private class RemoveEvent implements ActionListener {
+            private Event event;
+
+            public RemoveEvent(Event event) {
+                this.event = event;
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                schedule.removeEvent(event);
+                success.setText("Successfully Removed");
+                timePanel.remove(selectButton);
+            }
+        }
+    }
+
+
+    // ActionListener for ViewSchedule function
+    private class ViewScheduleAction implements ActionListener {
+        JFrame scheduleFrame;
+        JPanel schedulePanel;
+        JPanel dayPanel;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+//            scheduleFrame = new JFrame("Schedule");
+//            scheduleFrame.setSize(700, 300);
+//            scheduleFrame.setVisible(true);
+//            schedulePanel = new JPanel();
+//            schedulePanel.setLayout(new BoxLayout(schedulePanel, BoxLayout.LINE_AXIS));
+//            scheduleFrame.add(schedulePanel);
+            // abstract above
+            setMainFrame();
+
+            List<Weekday> weekdays = new ArrayList<>(Arrays.asList(Weekday.values()));
+
+            HashMap<Weekday, HashMap<Double, Event>> weekSchedule = schedule.getWeekSchedule();
             Set<Weekday>  weekdaysInSchedule = weekSchedule.keySet();
 
             for (Weekday weekday : weekdays) {
+//                dayPanel = new JPanel();
+//                TitledBorder dayTitle = BorderFactory.createTitledBorder(weekday.toString());
+//                dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.PAGE_AXIS));
+//                dayPanel.setBorder(dayTitle);
+//                dayPanel.setPreferredSize(new Dimension(100, 300));
+//                schedulePanel.add(dayPanel);
+                createWeekdayPanel(weekday);
 
+                // abstract above, weekday as parameter
+                if (weekdaysInSchedule.contains(weekday)) {
+//                    HashMap<Double, Event> daySchedule = weekSchedule.get(weekday);
+//                    Set<Double> timeSet = daySchedule.keySet();
+//                    List<Double> timeList = new ArrayList<>(timeSet);
+//                    Collections.sort(timeList);
+                    List<Double> timeList = getOrderedTimes(weekSchedule, weekday);
+                    // abstract above
+                    for (Double time : timeList) {
+                        Event event = weekSchedule.get(weekday).get(time);
+//                        JPanel timePanel = new JPanel();
+//                        timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.PAGE_AXIS));
+//                        dayPanel.add(timePanel);
+//                        JLabel timeInfo = new JLabel(convertTime(event.getStartTime()));
+//                        timePanel.add(timeInfo);
+//                        JLabel eventName = new JLabel(event.getEventName());
+//                        timePanel.add(eventName);
+//                        JLabel description = new JLabel(event.getDescription());
+//                        timePanel.add(description);
+//                        //todo figure out time formats
+//                        createTimeJLabels(timePanel, event.getMonth().toString());
+//                        createTimeJLabels(timePanel, Integer.toString(event.getDay()));
+//                        createTimeJLabels(timePanel, Integer.toString(event.getYear()));
+                        createTimePanel(event);
+                    }
+
+                        // todo fix layout
+                }
             }
+        }
+
+        public void createTimePanel(Event event) {
+            JPanel timePanel = new JPanel();
+            timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.PAGE_AXIS));
+            dayPanel.add(timePanel);
+            JLabel timeInfo = new JLabel(convertTime(event.getStartTime()));
+            timePanel.add(timeInfo);
+            JLabel eventName = new JLabel(event.getEventName());
+            timePanel.add(eventName);
+            JLabel description = new JLabel(event.getDescription());
+            timePanel.add(description);
+            //todo figure out time formats
+            createTimeJLabels(timePanel, event.getMonth().toString());
+            createTimeJLabels(timePanel, Integer.toString(event.getDay()));
+            createTimeJLabels(timePanel, Integer.toString(event.getYear()));
+        }
+
+        public void setMainFrame() {
+            scheduleFrame = new JFrame("Schedule");
+            scheduleFrame.setSize(700, 300);
+            scheduleFrame.setVisible(true);
+            schedulePanel = new JPanel();
+            schedulePanel.setLayout(new BoxLayout(schedulePanel, BoxLayout.LINE_AXIS));
+            scheduleFrame.add(schedulePanel);
+        }
+
+        public void createWeekdayPanel(Weekday weekday) {
+            dayPanel = new JPanel();
+            TitledBorder dayTitle = BorderFactory.createTitledBorder(weekday.toString());
+            dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.PAGE_AXIS));
+            dayPanel.setBorder(dayTitle);
+            dayPanel.setPreferredSize(new Dimension(100, 300));
+            schedulePanel.add(dayPanel);
+        }
+
+        public List<Double> getOrderedTimes(HashMap<Weekday, HashMap<Double, Event>> weekSchedule, Weekday weekday) {
+            HashMap<Double, Event> daySchedule = weekSchedule.get(weekday);
+            Set<Double> timeSet = daySchedule.keySet();
+            List<Double> timeList = new ArrayList<>(timeSet);
+            Collections.sort(timeList);
+            return timeList;
+        }
+
+        public void createTimeJLabels(JPanel panel, String textField) {
+            JLabel label = new JLabel(textField);
+            panel.add(label);
         }
     }
 
@@ -104,16 +270,61 @@ public class PlanningAppGui extends JFrame {
 
         // EFFECTS: creates the frame and layout for window that adds an event to the schedule
         private void createAddEventInputs() {
+//            addEventFrame = new JFrame("Add Event");
+//            addEventFrame.setVisible(true);
+//            addEventFrame.setSize(300, 600);
+//            addEventPanel = new JPanel();
+//            addEventFrame.add(addEventPanel);
+//            success = new JLabel("");
+            createMainFrame();
+
+//            eventNameTextField = createAddEventLabelAndFields("Enter the event name", addEventPanel);
+//            descriptionTextField = createAddEventLabelAndFields("Enter the description", addEventPanel);
+            createNameAndDescriptionFields();
+
+//            startTimeHourInput = createHourDropdownAndLabel("Select the start time");
+//            startTimeMinuteInput = createMinuteDropdown();
+//            addEventPanel.add(startTimeHourInput);
+//            addEventPanel.add(startTimeMinuteInput);
+            createTimeFields();
+
+//            endTimeHourInput = createHourDropdownAndLabel("Select the end time");
+//            endTimeMinuteInput = createMinuteDropdown();
+//            addEventPanel.add(endTimeHourInput);
+//            addEventPanel.add(endTimeMinuteInput);
+
+//            weekdayInput = createWeekdayDropdownAndLabel("Select the weekday");
+//            addEventPanel.add(weekdayInput);
+//
+//
+//
+//            monthsInput = createMonthDropdownAndLabel("Select the month");
+//            addEventPanel.add(monthsInput);
+//
+//            dayTextField = createAddEventLabelAndFields("Enter the day of the month", addEventPanel);
+//            yearTextField = createAddEventLabelAndFields("Enter the year", addEventPanel);
+            createDateFields();
+            confirmEvent();
+
+            success.setText("Successfully added to schedule");
+
+        }
+
+        public void createMainFrame() {
             addEventFrame = new JFrame("Add Event");
             addEventFrame.setVisible(true);
             addEventFrame.setSize(300, 600);
             addEventPanel = new JPanel();
             addEventFrame.add(addEventPanel);
             success = new JLabel("");
+        }
 
+        public void createNameAndDescriptionFields() {
             eventNameTextField = createAddEventLabelAndFields("Enter the event name", addEventPanel);
             descriptionTextField = createAddEventLabelAndFields("Enter the description", addEventPanel);
+        }
 
+        public void createTimeFields() {
             startTimeHourInput = createHourDropdownAndLabel("Select the start time");
             startTimeMinuteInput = createMinuteDropdown();
             addEventPanel.add(startTimeHourInput);
@@ -123,9 +334,9 @@ public class PlanningAppGui extends JFrame {
             endTimeMinuteInput = createMinuteDropdown();
             addEventPanel.add(endTimeHourInput);
             addEventPanel.add(endTimeMinuteInput);
+        }
 
-            JLabel weekdayLabel = new JLabel("Select the weekday");
-            addEventPanel.add(weekdayLabel);
+        public void createDateFields() {
             weekdayInput = createWeekdayDropdownAndLabel("Select the weekday");
             addEventPanel.add(weekdayInput);
 
@@ -136,14 +347,9 @@ public class PlanningAppGui extends JFrame {
 
             dayTextField = createAddEventLabelAndFields("Enter the day of the month", addEventPanel);
             yearTextField = createAddEventLabelAndFields("Enter the year", addEventPanel);
-
-            confirmEvent();
-
-            success.setText("Successfully added to schedule");
-
-
-
         }
+
+
 
         // EFFECTS: creates the confirmation button
         private void confirmEvent() {
@@ -207,7 +413,7 @@ public class PlanningAppGui extends JFrame {
 
             }
 
-            // EFFECTS: convers the selected minutes to doubles and returns it
+            // EFFECTS: converts the selected minutes to doubles and returns it
             public double convertMinuteTime(String endtimeString) {
                 if (endtimeString == "30") {
                     return 0.30;
@@ -245,6 +451,20 @@ public class PlanningAppGui extends JFrame {
 
     }
 
+    public void createTimeJLabels(JPanel panel, String textField) {
+        JLabel label = new JLabel(textField);
+        panel.add(label);
+    }
+
+    public String convertTime(double time) {
+        String numberStr = String.valueOf(time);
+        int indexOfDecimal = numberStr.indexOf(".");
+        String hour = numberStr.substring(0, indexOfDecimal);
+        String minute = numberStr.substring((indexOfDecimal + 1)) + "0";
+        return hour + ":" + minute;
+
+    }
+
 
 
     private void intializeLayout() {
@@ -254,18 +474,18 @@ public class PlanningAppGui extends JFrame {
         saveButton = new JButton("Save schedule");
         loadButton = new JButton("Load schedule");
         viewScheduleButton = new JButton("View Schedule");
+        removeButton = new JButton("Remove");
+
         panel.add(addEventButton);
         panel.add(saveButton);
         panel.add(loadButton);
         panel.add(viewScheduleButton);
+        panel.add(removeButton);
         frame.add(panel);
         frame.setVisible(true);
         frame.setSize(200, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-
-
 
 
 }
