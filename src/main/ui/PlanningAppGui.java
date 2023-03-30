@@ -43,10 +43,8 @@ public class PlanningAppGui extends JFrame {
 
     // EFFECTS: constructs main window of planner
     public PlanningAppGui() {
-
         super("Travel Planner");
         createWelcomeFrame();
-
     }
 
     // MODIFIES: this
@@ -66,11 +64,11 @@ public class PlanningAppGui extends JFrame {
 
         welcomeFrame.add(background);
         background.setLayout(new FlowLayout());
+
         JButton startButton = new JButton("Click here to start planning");
         startButton.addActionListener(new InitiateApp());
         background.add(welcomeText);
         background.add(startButton);
-
 
         welcomeFrame.setSize(new Dimension(width - 1, height - 1));
         welcomeFrame.setSize(new Dimension(width, height));
@@ -78,17 +76,19 @@ public class PlanningAppGui extends JFrame {
 
     }
 
+    // ActionListener for going to the main page
     private class InitiateApp implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            intializeLayout();
+            initializeLayout();
             initializeAction();
 
             welcomeFrame.dispose();
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: adds actionListener to all the buttons in main frame
     private void initializeAction() {
         schedule = new Schedule();
@@ -102,15 +102,35 @@ public class PlanningAppGui extends JFrame {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates main menu for application
+    private void initializeLayout() {
+        frame = new JFrame("Travel Planner");
+        panel = new JPanel();
+        addEventButton = new JButton("Add event");
+        saveButton = new JButton("Save schedule");
+        loadButton = new JButton("Load schedule");
+        viewScheduleButton = new JButton("View schedule");
+        removeButton = new JButton("Remove event");
+
+        panel.add(addEventButton);
+        panel.add(saveButton);
+        panel.add(loadButton);
+        panel.add(viewScheduleButton);
+        panel.add(removeButton);
+        frame.add(panel);
+        frame.setVisible(true);
+        frame.setSize(200, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
     // actionListener for displaying the events available to remove
 
     private class RemoveEventAction implements ActionListener {
 
-        protected JFrame scheduleFrame;
-        protected JPanel schedulePanel;
-        protected JPanel dayPanel;
-        //protected JPanel timePanel;
-
+        private JFrame scheduleFrame;
+        private JPanel schedulePanel;
+        private JPanel dayPanel;
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -118,6 +138,8 @@ public class PlanningAppGui extends JFrame {
             createSchedule();
         }
 
+        // MODIFIES: this
+        // EFFECTS: creates a schedule to display when user wants to remove an event
         public void createSchedule() {
             setMainFrame();
 
@@ -139,12 +161,11 @@ public class PlanningAppGui extends JFrame {
 
                         createTimePanel(event);
                     }
-
-
                 }
             }
         }
 
+        // REQUIRES: Event must be in schedule
         // MODIFIES: this
         // EFFECTS: creates the panel that presents a specific event
         public void createTimePanel(Event event) {
@@ -168,7 +189,6 @@ public class PlanningAppGui extends JFrame {
             JLabel success = new JLabel("");
             timePanel.add(success);
             selectButton.addActionListener(new RemoveEvent(event, success));
-
         }
 
         // MODIFIES: this
@@ -208,62 +228,45 @@ public class PlanningAppGui extends JFrame {
             panel.add(label);
         }
 
-
         // actionListener for removing a selected event
         private class RemoveEvent implements ActionListener {
             private Event event;
             private JLabel success;
 
-            // sets the desired event to be removed to this event
+            // EFFECTS: sets the desired event to be removed to this event and the success confirmation message
             public RemoveEvent(Event event, JLabel success) {
                 this.event = event;
                 this.success = success;
-
             }
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 schedule.removeEvent(event);
                 success.setText("Successfully Removed");
-                //timePanel.remove(selectButton);
                 JButton removeButton = (JButton) e.getSource();
                 removeButton.setEnabled(false);
 
             }
         }
 
-        // EFFECTS: creates labels with given text and adds to given panel
-        public void createJLabelsForRemoveEvent(JPanel panel, String textField) {
-            JLabel label = new JLabel(textField);
-            panel.add(label);
-        }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
     // ActionListener for ViewSchedule function
     private class ViewScheduleAction implements ActionListener {
-        protected JFrame scheduleFrame;
-        protected JPanel schedulePanel;
-        protected JPanel dayPanel;
-        protected JPanel timePanel;
+        private JFrame scheduleFrame;
+        private JPanel schedulePanel;
+        private JPanel dayPanel;
+        private JPanel timePanel;
 
         @Override
         public void actionPerformed(ActionEvent e) {
             createSchedule();
         }
 
+        // MODIFIES: this
+        // EFFECTS: creates the schedule that will be displayed when user wants to view their schedule
         public void createSchedule() {
             setMainFrame();
 
@@ -285,8 +288,6 @@ public class PlanningAppGui extends JFrame {
 
                         createTimePanel(event);
                     }
-
-
                 }
             }
         }
@@ -351,24 +352,23 @@ public class PlanningAppGui extends JFrame {
     // ActionListener for Add Event function
     private class AddEventAction implements ActionListener {
 
-        JFrame addEventFrame;
-        JTextField eventNameTextField;
-        JTextField descriptionTextField;
-        JComboBox<Integer> startTimeHourInput;
-        JComboBox<String> startTimeMinuteInput;
-        JComboBox<Integer> endTimeHourInput;
-        JComboBox<String> endTimeMinuteInput;
-        JComboBox<Weekday> weekdayInput;
-        JTextField dayTextField;
-        JTextField yearTextField;
-        JComboBox<Month> monthsInput;
-        JPanel addEventPanel;
-        JButton confirmButton;
-        JLabel success;
+        private JFrame addEventFrame;
+        private JTextField eventNameTextField;
+        private JTextField descriptionTextField;
+        private JComboBox<Integer> startTimeHourInput;
+        private JComboBox<String> startTimeMinuteInput;
+        private JComboBox<Integer> endTimeHourInput;
+        private JComboBox<String> endTimeMinuteInput;
+        private JComboBox<Weekday> weekdayInput;
+        private JTextField dayTextField;
+        private JTextField yearTextField;
+        private JComboBox<Month> monthsInput;
+        private JPanel addEventPanel;
+        private JButton confirmButton;
+        private JLabel success;
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             createAddEventInputs();
         }
 
@@ -377,15 +377,10 @@ public class PlanningAppGui extends JFrame {
         private void createAddEventInputs() {
 
             createMainFrame();
-
             createNameAndDescriptionFields();
-
             createTimeFields();
-
-
             createDateFields();
             confirmEvent();
-
             success.setText("Successfully added to schedule");
 
         }
@@ -433,8 +428,6 @@ public class PlanningAppGui extends JFrame {
             weekdayInput = createWeekdayDropdownAndLabel("Select the weekday");
             addEventPanel.add(weekdayInput);
             addFiller();
-
-
             monthsInput = createMonthDropdownAndLabel("Select the month");
             addEventPanel.add(monthsInput);
             addFiller();
@@ -444,12 +437,14 @@ public class PlanningAppGui extends JFrame {
             addFiller();
         }
 
+        // MODIFIES: this
+        // EFFECTS: adds invisible filler
         public void addFiller() {
             addEventPanel.add(Box.createRigidArea(new Dimension(20, 20)));
         }
 
 
-
+        // MODIFIES: this
         // EFFECTS: creates the confirmation button
         private void confirmEvent() {
             confirmButton = new JButton("Add event to schedule");
@@ -457,6 +452,7 @@ public class PlanningAppGui extends JFrame {
             addEventPanel.add(confirmButton);
         }
 
+        // MODIFIES: this
         // EFFECTS: creates a JComboBox dropdown and label representing the hours of time. Returns the JComboBox
         public JComboBox<Integer> createHourDropdownAndLabel(String label) {
             Integer[] hourTimeOptions = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -471,6 +467,7 @@ public class PlanningAppGui extends JFrame {
             return new JComboBox<>(minuteTimeOptions);
         }
 
+        // MODIFIES: this
         // EFFECTS: creates a JComboBox dropdown and label representing the weekdays. Returns the JComboBox
         public JComboBox<Weekday> createWeekdayDropdownAndLabel(String label) {
             addEventPanel.add(new JLabel(label));
@@ -479,6 +476,7 @@ public class PlanningAppGui extends JFrame {
             return new JComboBox<>(weekdayOptions);
         }
 
+        // MODIFIES: this
         // EFFECTS: creates a JComboBox dropdown and label representing the months. Returns the JComboBox
         public JComboBox<Month> createMonthDropdownAndLabel(String label) {
             addEventPanel.add(new JLabel(label));
@@ -493,11 +491,8 @@ public class PlanningAppGui extends JFrame {
         public JTextField createAddEventLabelAndFields(String label, JPanel panel) {
             JLabel addEventLabel = new JLabel(label);
             JTextField addEventInput = new JTextField();
-            //addEventInput.setPreferredSize(addEventInput.getPreferredSize());
             panel.add(addEventLabel);
-
             panel.add(addEventInput);
-
             return addEventInput;
         }
 
@@ -513,9 +508,6 @@ public class PlanningAppGui extends JFrame {
             private int year;
             private Month month;
 
-            public ConfirmEventActionListener() {
-
-            }
 
             // EFFECTS: converts the selected minutes to doubles and returns it
             public double convertMinuteTime(String endtimeString) {
@@ -545,42 +537,17 @@ public class PlanningAppGui extends JFrame {
                 schedule.addEvent(event);
 
                 JFrame success = new JFrame("Success");
-                success.setSize(new Dimension(150, 250));
+                success.setSize(new Dimension(250, 150));
+                success.setLayout(new FlowLayout(FlowLayout.CENTER, 45, 45));
                 JLabel successLabel = new JLabel("Event successfully added");
                 success.add(successLabel);
                 success.setVisible(true);
                 JButton confirm = (JButton) e.getSource();
                 confirm.setEnabled(false);
-
-
-
-            }
-
-        }
-
-
-    }
-
-    // actionListener for loading the schedule
-    private class LoadEventAction implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                schedule = jsonReader.read();
-                JFrame success = new JFrame("Successfully loaded");
-                success.setSize(100, 100);
-                success.add(new JLabel("Successfully loaded"));
-                success.setVisible(true);
-                success.setVisible(true);
-            } catch (IOException ex) {
-                JFrame jframe = new JFrame("Unable to load schedule");
-                jframe.setSize(100, 100);
-                jframe.add(new JLabel("Unable to load schedule"));
-                jframe.setVisible(true);
-
             }
         }
     }
+
 
 
     // EFFECTS: converts given double to time format as a string
@@ -590,30 +557,30 @@ public class PlanningAppGui extends JFrame {
         String hour = numberStr.substring(0, indexOfDecimal);
         String minute = numberStr.substring((indexOfDecimal + 1)) + "0";
         return hour + ":" + minute;
-
     }
 
 
-    // MODIFIES: this
-    // EFFECTS: creates main menu for application
-    private void intializeLayout() {
-        frame = new JFrame("Travel Planner");
-        panel = new JPanel();
-        addEventButton = new JButton("Add Event");
-        saveButton = new JButton("Save schedule");
-        loadButton = new JButton("Load schedule");
-        viewScheduleButton = new JButton("View Schedule");
-        removeButton = new JButton("Remove");
 
-        panel.add(addEventButton);
-        panel.add(saveButton);
-        panel.add(loadButton);
-        panel.add(viewScheduleButton);
-        panel.add(removeButton);
-        frame.add(panel);
-        frame.setVisible(true);
-        frame.setSize(200, 200);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    // actionListener for loading the schedule
+    private class LoadEventAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                schedule = jsonReader.read();
+                JFrame success = new JFrame("Successfully loaded");
+                success.setSize(200, 150);
+                success.setLayout(new FlowLayout(FlowLayout.CENTER, 45, 45));
+                success.add(new JLabel("Successfully loaded"));
+                success.setVisible(true);
+                success.setVisible(true);
+            } catch (IOException ex) {
+                JFrame jframe = new JFrame("Unable to load schedule");
+                jframe.setSize(100, 100);
+                jframe.add(new JLabel("Unable to load schedule"));
+                jframe.setVisible(true);
+            }
+        }
     }
 
 
@@ -627,18 +594,16 @@ public class PlanningAppGui extends JFrame {
                 jsonWriter.write(schedule);
                 jsonWriter.close();
                 JFrame success = new JFrame("Successfully saved");
-                success.setSize(150, 150);
+                success.setSize(200, 150);
+                success.setLayout(new FlowLayout(FlowLayout.CENTER, 45, 45));
                 success.add(new JLabel("Successfully saved"));
                 success.setVisible(true);
             } catch (FileNotFoundException ex) {
                 JFrame jframe = new JFrame("Could not save schedule");
-                jframe.setSize(150, 150);
+                jframe.setSize(200, 150);
                 jframe.add(new JLabel("Could not save schedule"));
                 jframe.setVisible(true);
-
             }
         }
     }
-
-
 }
