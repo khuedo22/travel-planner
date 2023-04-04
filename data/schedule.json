@@ -1,28 +1,15 @@
 {"Week Schedule": [
       {"Thursday": [{
-            "event name": "bill",
-            "end time": 14,
+            "event name": "e",
+            "end time": 10,
             "month": "January",
             "year": 2023,
             "price": 0,
-            "start time": 13,
+            "start time": 9,
             "weekday": "Thursday",
-            "description": "bill",
+            "description": "e",
             "transportation info": "no info",
-            "day": 19,
-            "additional notes": "no info"
-      }]},
-      {"Tuesday": [{
-            "event name": "bob",
-            "end time": 4,
-            "month": "January",
-            "year": 2023,
-            "price": 0,
-            "start time": 3,
-            "weekday": "Tuesday",
-            "description": "bob",
-            "transportation info": "no info",
-            "day": 16,
+            "day": 1,
             "additional notes": "no info"
       }]},
       {"Monday": [
@@ -52,5 +39,18 @@
                   "day": 11,
                   "additional notes": "no info"
             }
-      ]}
+      ]},
+      {"Wednesday": [{
+            "event name": "event",
+            "end time": 12,
+            "month": "January",
+            "year": 2023,
+            "price": 0,
+            "start time": 10,
+            "weekday": "Wednesday",
+            "description": "event",
+            "transportation info": "no info",
+            "day": 1,
+            "additional notes": "no info"
+      }]}
 ]}

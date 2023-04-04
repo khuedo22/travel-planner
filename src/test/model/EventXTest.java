@@ -8,13 +8,13 @@ import static model.Weekday.Wednesday;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class EventTest {
+class EventXTest {
 
-    private Event event;
+    private EventX event;
     @BeforeEach
 
     public void runBefore() {
-        event = new Event("Zoo", "going to the zoo",
+        event = new EventX("Zoo", "going to the zoo",
                 13.30, 17, Weekday.Monday, 18, Month.May, 2023);
     }
 

@@ -1,9 +1,7 @@
 package ui;
 
+import model.*;
 import model.Event;
-import model.Month;
-import model.Schedule;
-import model.Weekday;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -12,6 +10,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
@@ -100,6 +100,7 @@ public class PlanningAppGui extends JFrame {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
+
     }
 
     // MODIFIES: this
@@ -121,7 +122,18 @@ public class PlanningAppGui extends JFrame {
         frame.add(panel);
         frame.setVisible(true);
         frame.setSize(200, 200);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                EventLog eventLog = EventLog.getInstance();
+                for (Event event : eventLog) {
+                    System.out.println(event.toString());
+                }
+                System.exit(0);
+            }
+        });
     }
 
     // actionListener for displaying the events available to remove
@@ -145,7 +157,7 @@ public class PlanningAppGui extends JFrame {
 
             List<Weekday> weekdays = new ArrayList<>(Arrays.asList(Weekday.values()));
 
-            HashMap<Weekday, HashMap<Double, Event>> weekSchedule = schedule.getWeekSchedule();
+            HashMap<Weekday, HashMap<Double, EventX>> weekSchedule = schedule.getWeekSchedule();
             Set<Weekday>  weekdaysInSchedule = weekSchedule.keySet();
 
             for (Weekday weekday : weekdays) {
@@ -157,7 +169,7 @@ public class PlanningAppGui extends JFrame {
                     List<Double> timeList = getOrderedTimes(weekSchedule, weekday);
 
                     for (Double time : timeList) {
-                        Event event = weekSchedule.get(weekday).get(time);
+                        EventX event = weekSchedule.get(weekday).get(time);
 
                         createTimePanel(event);
                     }
@@ -168,7 +180,7 @@ public class PlanningAppGui extends JFrame {
         // REQUIRES: Event must be in schedule
         // MODIFIES: this
         // EFFECTS: creates the panel that presents a specific event
-        public void createTimePanel(Event event) {
+        public void createTimePanel(EventX event) {
             JPanel timePanel = new JPanel();
             timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.PAGE_AXIS));
             timePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -214,8 +226,8 @@ public class PlanningAppGui extends JFrame {
         }
 
         // EFFECTS: returns a list of the times of the events of that day in order
-        public List<Double> getOrderedTimes(HashMap<Weekday, HashMap<Double, Event>> weekSchedule, Weekday weekday) {
-            HashMap<Double, Event> daySchedule = weekSchedule.get(weekday);
+        public List<Double> getOrderedTimes(HashMap<Weekday, HashMap<Double, EventX>> weekSchedule, Weekday weekday) {
+            HashMap<Double, EventX> daySchedule = weekSchedule.get(weekday);
             Set<Double> timeSet = daySchedule.keySet();
             List<Double> timeList = new ArrayList<>(timeSet);
             Collections.sort(timeList);
@@ -230,11 +242,11 @@ public class PlanningAppGui extends JFrame {
 
         // actionListener for removing a selected event
         private class RemoveEvent implements ActionListener {
-            private Event event;
+            private EventX event;
             private JLabel success;
 
             // EFFECTS: sets the desired event to be removed to this event and the success confirmation message
-            public RemoveEvent(Event event, JLabel success) {
+            public RemoveEvent(EventX event, JLabel success) {
                 this.event = event;
                 this.success = success;
             }
@@ -272,7 +284,7 @@ public class PlanningAppGui extends JFrame {
 
             List<Weekday> weekdays = new ArrayList<>(Arrays.asList(Weekday.values()));
 
-            HashMap<Weekday, HashMap<Double, Event>> weekSchedule = schedule.getWeekSchedule();
+            HashMap<Weekday, HashMap<Double, EventX>> weekSchedule = schedule.getWeekSchedule();
             Set<Weekday>  weekdaysInSchedule = weekSchedule.keySet();
 
             for (Weekday weekday : weekdays) {
@@ -284,7 +296,7 @@ public class PlanningAppGui extends JFrame {
                     List<Double> timeList = getOrderedTimes(weekSchedule, weekday);
 
                     for (Double time : timeList) {
-                        Event event = weekSchedule.get(weekday).get(time);
+                        EventX event = weekSchedule.get(weekday).get(time);
 
                         createTimePanel(event);
                     }
@@ -294,7 +306,7 @@ public class PlanningAppGui extends JFrame {
 
         // MODIFIES: this
         // EFFECTS: creates the panel that presents a specific event
-        public void createTimePanel(Event event) {
+        public void createTimePanel(EventX event) {
             timePanel = new JPanel();
             timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.PAGE_AXIS));
             timePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -334,8 +346,8 @@ public class PlanningAppGui extends JFrame {
         }
 
         // EFFECTS: returns a list of the times of the events of that day in order
-        public List<Double> getOrderedTimes(HashMap<Weekday, HashMap<Double, Event>> weekSchedule, Weekday weekday) {
-            HashMap<Double, Event> daySchedule = weekSchedule.get(weekday);
+        public List<Double> getOrderedTimes(HashMap<Weekday, HashMap<Double, EventX>> weekSchedule, Weekday weekday) {
+            HashMap<Double, EventX> daySchedule = weekSchedule.get(weekday);
             Set<Double> timeSet = daySchedule.keySet();
             List<Double> timeList = new ArrayList<>(timeSet);
             Collections.sort(timeList);
@@ -533,7 +545,7 @@ public class PlanningAppGui extends JFrame {
                 day = Integer.parseInt((dayTextField.getText()));
                 year = Integer.parseInt(yearTextField.getText());
                 month = (Month) monthsInput.getSelectedItem();
-                Event event = new Event(eventName, description, startTime, endTime, weekday, day, month, year);
+                EventX event = new EventX(eventName, description, startTime, endTime, weekday, day, month, year);
                 schedule.addEvent(event);
 
                 JFrame success = new JFrame("Success");

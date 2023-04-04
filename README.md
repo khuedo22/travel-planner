@@ -39,3 +39,58 @@ of and organize the information so I am better prepared when travelling and have
  current schedule has been saved
 - You can reload the state of my application by clicking "Load Schedule" on the main menu. A window will pop up confirming that the
  schedule has been loaded
+
+
+
+### *Phase 4 task 2* ###
+Sun Apr 02 14:54:38 PDT 2023 
+
+instantiates a new empty schedule
+Sun Apr 02 14:54:41 PDT 2023
+instantiates a new empty schedule
+Sun Apr 02 14:54:41 PDT 2023
+created a new event called bill starting at 9.0
+Sun Apr 02 14:54:41 PDT 2023
+added the event bill to the schedule
+Sun Apr 02 14:54:41 PDT 2023
+created a new event called lil starting at 1.0
+Sun Apr 02 14:54:41 PDT 2023
+added the event lil to the schedule
+Sun Apr 02 14:54:41 PDT 2023
+created a new event called hi starting at 13.0
+Sun Apr 02 14:54:41 PDT 2023
+added the event hi to the schedule
+Sun Apr 02 14:54:41 PDT 2023
+created a new event called e starting at 9.0
+Sun Apr 02 14:54:41 PDT 2023
+added the event e to the schedule
+Sun Apr 02 14:55:02 PDT 2023
+created a new event called event starting at 10.0
+Sun Apr 02 14:55:02 PDT 2023
+added the event event to the schedule
+Sun Apr 02 14:55:12 PDT 2023
+removed the event bill from the schedule
+Sun Apr 02 14:55:17 PDT 2023
+converted event e to a Json object
+Sun Apr 02 14:55:17 PDT 2023
+created a json array representing a day schedule
+Sun Apr 02 14:55:17 PDT 2023
+converted the day schedule to a json object
+Sun Apr 02 14:55:17 PDT 2023
+converted event lil to a Json object
+Sun Apr 02 14:55:17 PDT 2023
+converted event hi to a Json object
+Sun Apr 02 14:55:17 PDT 2023
+created a json array representing a day schedule
+Sun Apr 02 14:55:17 PDT 2023
+converted the day schedule to a json object
+Sun Apr 02 14:55:17 PDT 2023
+converted event event to a Json object
+Sun Apr 02 14:55:17 PDT 2023
+created a json array representing a day schedule
+Sun Apr 02 14:55:17 PDT 2023
+converted the day schedule to a json object
+Sun Apr 02 14:55:17 PDT 2023
+created a json array representing a week schedule
+Sun Apr 02 14:55:17 PDT 2023
+saving schedule by converting the schedule to a Json object

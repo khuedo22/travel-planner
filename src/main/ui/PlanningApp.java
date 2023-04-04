@@ -1,6 +1,6 @@
 package ui;
 
-import model.Event;
+import model.EventX;
 import model.Month;
 import model.Schedule;
 import model.Weekday;
@@ -93,7 +93,7 @@ public class PlanningApp {
         if (schedule.getWeekSchedule().isEmpty()) {
             System.out.println("You do not have anything scheduled yet");
         } else {
-            Event chosenEvent = getSelectedEvent();
+            EventX chosenEvent = getSelectedEvent();
             this.schedule.removeEvent(chosenEvent);
         }
     }
@@ -102,7 +102,7 @@ public class PlanningApp {
     // EFFECTS: creates a new event with given specifications and add it to the corresponding day and start time slot
     private void scheduleEvent() {
 
-        Event e = createNewEvent();
+        EventX e = createNewEvent();
         this.schedule.addEvent(e);
         addAdditionalInfo(e);
 
@@ -111,7 +111,7 @@ public class PlanningApp {
 
     // MODIFIES: Event
     // EFFECTS: adds information about tranportation, price, and additional notes if user choses to
-    public void addAdditionalInfo(Event e) {
+    public void addAdditionalInfo(EventX e) {
         System.out.println("Do you want to add any additional information?");
         System.out.println("y - yes \nn - no");
         String wantsAdditionalInfo = input.next();
@@ -129,7 +129,7 @@ public class PlanningApp {
     }
 
     // EFFECTS: creates new event with user input information
-    public Event createNewEvent() {
+    public EventX createNewEvent() {
         System.out.println("Enter the event name: ");
         String newEventName = input.next();
         System.out.println("Enter the description: ");
@@ -150,7 +150,7 @@ public class PlanningApp {
         Month newEventMonth = convertMonth(input.next());
         System.out.println("Enter the year: ");
         int newEventYear = input.nextInt();
-        Event e = new Event(newEventName, newEventDescription, newEventStartTime, newEventEndTime, newEventWeekday,
+        EventX e = new EventX(newEventName, newEventDescription, newEventStartTime, newEventEndTime, newEventWeekday,
                 newEventDay, newEventMonth, newEventYear);
         return e;
     }
@@ -161,7 +161,7 @@ public class PlanningApp {
         if (schedule.getWeekSchedule().isEmpty()) {
             System.out.println("You do not have anything scheduled yet");
         } else {
-            Event event = getSelectedEvent();
+            EventX event = getSelectedEvent();
             System.out.println("Which of the following do you want to edit?");
             System.out.println("name - Event Name \ndes - Description \ntime - Start and End Times \ndate - Date"
                     + "\ntrans - Transportation + \n$ - Price \nadd - Additional Notes");
@@ -172,7 +172,7 @@ public class PlanningApp {
 
     // MODIFIES: Event
     // EFFECTS: executes the chosen edit
-    private void processChosenEdit(String chosenEdit, Event event) {
+    private void processChosenEdit(String chosenEdit, EventX event) {
         if (chosenEdit.equals("name")) {
             processEditName(event);
         }
@@ -199,7 +199,7 @@ public class PlanningApp {
 
     // MODIFIES: this, Event
     // EFFECTS: update the additional information of an event to the user's input
-    private void processEditAddInfo(Event event) {
+    private void processEditAddInfo(EventX event) {
         System.out.println("Enter the new additional information");
         String newAddInfo = input.next();
         event.editAdditionalNotes(newAddInfo);
@@ -208,7 +208,7 @@ public class PlanningApp {
 
     // MODIFIES: this, Event
     // EFFECTS: update the price of a chosen event to the user's input
-    private void processEditPrice(Event event) {
+    private void processEditPrice(EventX event) {
         System.out.println("Enter the new price");
         Double newPrice = input.nextDouble();
         event.editPrice(newPrice);
@@ -217,7 +217,7 @@ public class PlanningApp {
 
     // MODIFIES: this, Event
     // EFFECTS: update the transportation of a chosen event to the user's input
-    private void processEditTrans(Event event) {
+    private void processEditTrans(EventX event) {
         System.out.println("Enter the new transportation");
         String newTransportation = input.next();
         event.editTransportation(newTransportation);
@@ -225,7 +225,7 @@ public class PlanningApp {
 
     // MODIFIES: this, Event
     // EFFECTS: update the date (weekday, month, day, year) of a chosen event to the user's input
-    private void processEditDate(Event event) {
+    private void processEditDate(EventX event) {
 
         System.out.println("Enter the new weekday");
         System.out.println("\nmon - Monday \ntue - Tuesday \nwed - Wednesday \nthurs - Thurdsay"
@@ -246,7 +246,7 @@ public class PlanningApp {
 
     // MODIFIES: this, Event
     // EFFECTS: update the start and end time of a chosen event to the user's input
-    private void processEditTime(Event event) {
+    private void processEditTime(EventX event) {
         System.out.println("Enter the new start time");
         double newStartTime = input.nextDouble();
         double newEndTime = input.nextDouble();
@@ -256,7 +256,7 @@ public class PlanningApp {
 
     // MODIFIES: this, Event
     // EFFECTS: updates the description of a chosen event to the user's input
-    private void processEditDes(Event event) {
+    private void processEditDes(EventX event) {
         System.out.println("Enter the new description");
         String newDescription = input.next();
         event.editDescription(newDescription);
@@ -264,7 +264,7 @@ public class PlanningApp {
 
     // MODIFIES: this, Event
     // EFFECTS: updates the name of a chosen event to the user's input
-    private void processEditName(Event event) {
+    private void processEditName(EventX event) {
         System.out.println("Enter the new name");
         String newName = input.next();
         event.editEventName(newName);
@@ -280,15 +280,15 @@ public class PlanningApp {
 
     // EFFECTS: displays the current schedule to the user, with all the event's information
     private void viewSchedule() {
-        HashMap<Weekday, HashMap<Double, Event>> currentSchedule = schedule.getWeekSchedule();
+        HashMap<Weekday, HashMap<Double, EventX>> currentSchedule = schedule.getWeekSchedule();
         System.out.println("Current Schedule");
         ArrayList<Weekday> weekdays = listOfWeekdays();
         for (Weekday weekday : weekdays) {
             if (currentSchedule.containsKey(weekday)) {
                 System.out.println("Weekday: " + weekday.toString());
-                HashMap<Double, Event> daySchedule = schedule.getWeekSchedule().get(weekday);
+                HashMap<Double, EventX> daySchedule = schedule.getWeekSchedule().get(weekday);
                 for (double startTime : daySchedule.keySet()) {
-                    Event event = daySchedule.get(startTime);
+                    EventX event = daySchedule.get(startTime);
                     System.out.println("Start Time: " + Double.toString(startTime));
 
                     System.out.println("End time: " + event.getEndTime());
@@ -316,7 +316,7 @@ public class PlanningApp {
 
 
     // EFFECTS: returns the event based on user's sepcified weekday and time
-    public Event getSelectedEvent() {
+    public EventX getSelectedEvent() {
         System.out.println("Enter weekday of the event you want to select: \nmon - Monday \ntue - Tuesday "
                 + "\nwed - Wednesday \nthurs - Thurdsay \nfri - Friday \nsat - Saturday \nsun - Sunday");
         String chosenDay = input.next();
@@ -324,7 +324,7 @@ public class PlanningApp {
         Weekday day = convertWeekday(chosenDay);
         System.out.println(("Enter the time in the format xx.xx in 24 hours. The decimals should only be .00 or .30"));
         double chosenTime = input.nextDouble();
-        Event chosenEvent = this.schedule.getEvent(day, chosenTime);
+        EventX chosenEvent = this.schedule.getEvent(day, chosenTime);
         return chosenEvent;
 
     }

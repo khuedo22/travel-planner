@@ -1,6 +1,6 @@
 package persistence;
 
-import model.Event;
+import model.EventX;
 import model.Schedule;
 import model.Weekday;
 import org.junit.jupiter.api.Test;
@@ -43,16 +43,16 @@ public class JsonReaderTest {
         try {
             Schedule schedule = reader.read();
 
-            HashMap<Weekday, HashMap<Double, Event>> weekSchedule = schedule.getWeekSchedule();
+            HashMap<Weekday, HashMap<Double, EventX>> weekSchedule = schedule.getWeekSchedule();
             assertEquals(2, weekSchedule.size());
             assertTrue(weekSchedule.containsKey(Weekday.Tuesday));
             assertTrue(weekSchedule.containsKey(Weekday.Wednesday));
 
-            HashMap<Double, Event> tuesday = weekSchedule.get(Weekday.Tuesday);
+            HashMap<Double, EventX> tuesday = weekSchedule.get(Weekday.Tuesday);
             assertEquals(1, tuesday.size());
             assertEquals("flying", tuesday.get(12.30).getEventName());
 
-            HashMap<Double, Event> wednesday = weekSchedule.get(Weekday.Wednesday);
+            HashMap<Double, EventX> wednesday = weekSchedule.get(Weekday.Wednesday);
             assertEquals(2, wednesday.size());
             assertEquals("jogging", wednesday.get(13.00).getEventName());
             assertEquals("restaurant", wednesday.get(14.0).getEventName());

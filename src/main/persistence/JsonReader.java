@@ -4,7 +4,7 @@ package persistence;
 // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
 
-import model.Event;
+import model.EventX;
 import model.Month;
 import model.Schedule;
 import model.Weekday;
@@ -93,7 +93,7 @@ public class JsonReader {
             String transportationInfo = eventJson.getString("transportation info");
             Double price = eventJson.getDouble("price");
             String additionalNotes = eventJson.getString("additional notes");
-            Event event = new Event(eventName, description, startTime, endTime, weekday, day, month, year);
+            EventX event = new EventX(eventName, description, startTime, endTime, weekday, day, month, year);
             event.editPrice(price);
             event.editAdditionalNotes(additionalNotes);
             event.editTransportation(transportationInfo);

@@ -1,6 +1,6 @@
 package persistence;
 
-import model.Event;
+import model.EventX;
 import model.Month;
 import model.Schedule;
 import model.Weekday;
@@ -39,7 +39,7 @@ public class JsonWriterTest {
 
             JsonReader reader = new JsonReader("./data/testWriterEmptySchedule.json");
             schedule = reader.read();;
-            HashMap<Weekday, HashMap<Double, Event>> weekSchedule = schedule.getWeekSchedule();
+            HashMap<Weekday, HashMap<Double, EventX>> weekSchedule = schedule.getWeekSchedule();
             assertEquals(0, weekSchedule.size());
         } catch (IOException e) {
             fail("IOException should not have been thrown");
@@ -50,11 +50,11 @@ public class JsonWriterTest {
     void testWriterGeneralSchedule() {
         try {
             Schedule schedule = new Schedule();
-            Event event1 = new Event("flying", "becoming a bird", 13.30, 15.30,
+            EventX event1 = new EventX("flying", "becoming a bird", 13.30, 15.30,
                     Weekday.Monday, 10, Month.March, 2023);
-            Event event2 = new Event("painting", "painting lessons", 9.00, 11.30,
+            EventX event2 = new EventX("painting", "painting lessons", 9.00, 11.30,
                     Weekday.Wednesday, 12, Month.March, 2023);
-            Event event3 = new Event("gym", "exercising for health", 14.30, 15.00,
+            EventX event3 = new EventX("gym", "exercising for health", 14.30, 15.00,
                     Weekday.Wednesday, 12, Month.March, 2023);
             schedule.addEvent(event1);
             schedule.addEvent(event2);
@@ -72,7 +72,7 @@ public class JsonWriterTest {
 
             assertEquals(1, schedule.getWeekSchedule().get(Weekday.Monday).size());
             assertEquals("flying", schedule.getWeekSchedule().get(Weekday.Monday).get(13.30).getEventName());
-            HashMap<Double, Event> wednesday = schedule.getWeekSchedule().get(Weekday.Wednesday);
+            HashMap<Double, EventX> wednesday = schedule.getWeekSchedule().get(Weekday.Wednesday);
             assertEquals(2, wednesday.size());
             assertEquals("painting", wednesday.get(9.00).getEventName());
             assertEquals("gym", wednesday.get(14.30).getEventName());
