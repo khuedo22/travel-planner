@@ -1,56 +1,13 @@
-{"Week Schedule": [
-      {"Thursday": [{
-            "event name": "e",
-            "end time": 10,
-            "month": "January",
-            "year": 2023,
-            "price": 0,
-            "start time": 9,
-            "weekday": "Thursday",
-            "description": "e",
-            "transportation info": "no info",
-            "day": 1,
-            "additional notes": "no info"
-      }]},
-      {"Monday": [
-            {
-                  "event name": "lil",
-                  "end time": 3,
-                  "month": "January",
-                  "year": 2023,
-                  "price": 0,
-                  "start time": 1,
-                  "weekday": "Monday",
-                  "description": "gil",
-                  "transportation info": "no info",
-                  "day": 11,
-                  "additional notes": "no info"
-            },
-            {
-                  "event name": "hi",
-                  "end time": 15,
-                  "month": "January",
-                  "year": 2023,
-                  "price": 0,
-                  "start time": 13,
-                  "weekday": "Monday",
-                  "description": "hi",
-                  "transportation info": "no info",
-                  "day": 11,
-                  "additional notes": "no info"
-            }
-      ]},
-      {"Wednesday": [{
-            "event name": "event",
-            "end time": 12,
-            "month": "January",
-            "year": 2023,
-            "price": 0,
-            "start time": 10,
-            "weekday": "Wednesday",
-            "description": "event",
-            "transportation info": "no info",
-            "day": 1,
-            "additional notes": "no info"
-      }]}
-]}
+{"Week Schedule": [{"Monday": [{
+      "event name": "lab",
+      "end time": 1,
+      "month": "January",
+      "year": 2023,
+      "price": 0,
+      "start time": 1,
+      "weekday": "Monday",
+      "description": "lab",
+      "transportation info": "no info",
+      "day": 1,
+      "additional notes": "no info"
+}]}]}

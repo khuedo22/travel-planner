@@ -94,3 +94,22 @@ Sun Apr 02 14:55:17 PDT 2023
 created a json array representing a week schedule
 Sun Apr 02 14:55:17 PDT 2023
 saving schedule by converting the schedule to a Json object
+
+
+### *Phase 4 Task 3* ###
+
+First, I would refactor the PlanningAppGui to make it more cohesive. The class has too many responsibilities and I would probably make each functionality its own class. For example, I would
+have a class that deals with constructing the welcome frame. That class would create the visual frame and have an inner 
+ActionListener class. I would have separate classes that deal with constructing the adding event, removing event,
+viewing schedule, saving schedule, and loading schedule. All these classes would create the buttons that show up on the 
+main menu frame, create the frames that pop up when the button is clicked, and implement the ActionListener within the class.
+The PlanningAppGui would handle the layout of the main menu (the frame that has all the buttons).
+However, all these classes need access to the same instance of Schedule, so the Schedule class would need to be a singleton.
+A possible downside to this is that tests for EventX and Schedule would need to change since a new Schedule can't be 
+instantiated anymore.
+
+Additionally, since both the ViewScheduleAction and RemoveEventAction both involve displaying the schedule, I would abstract 
+parts of this method out. I would probably make an abstract class and have several helper methods in this class. Both the
+ViewScheduleAction and the RemoveEventAction would extend this class. The RemoveEventAction would override one of the helper
+methods related to displaying an individual event so the Select button can be added. Both classes would add their own 
+ActionListener class
