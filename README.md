@@ -43,73 +43,91 @@ of and organize the information so I am better prepared when travelling and have
 
 
 ### *Phase 4 task 2* ###
-Sun Apr 02 14:54:38 PDT 2023 
+*note: the "X" class is "EventX"* 
+actions taken: loading, adding, removing, saving
 
+Tue Apr 11 01:17:27 PDT 2023
 instantiates a new empty schedule
-Sun Apr 02 14:54:41 PDT 2023
+
+Tue Apr 11 01:17:28 PDT 2023
 instantiates a new empty schedule
-Sun Apr 02 14:54:41 PDT 2023
-created a new event called bill starting at 9.0
-Sun Apr 02 14:54:41 PDT 2023
-added the event bill to the schedule
-Sun Apr 02 14:54:41 PDT 2023
-created a new event called lil starting at 1.0
-Sun Apr 02 14:54:41 PDT 2023
-added the event lil to the schedule
-Sun Apr 02 14:54:41 PDT 2023
-created a new event called hi starting at 13.0
-Sun Apr 02 14:54:41 PDT 2023
-added the event hi to the schedule
-Sun Apr 02 14:54:41 PDT 2023
-created a new event called e starting at 9.0
-Sun Apr 02 14:54:41 PDT 2023
-added the event e to the schedule
-Sun Apr 02 14:55:02 PDT 2023
-created a new event called event starting at 10.0
-Sun Apr 02 14:55:02 PDT 2023
+
+Tue Apr 11 01:17:28 PDT 2023
+created a new event called event starting at 12.0
+
+Tue Apr 11 01:17:28 PDT 2023
 added the event event to the schedule
-Sun Apr 02 14:55:12 PDT 2023
-removed the event bill from the schedule
-Sun Apr 02 14:55:17 PDT 2023
-converted event e to a Json object
-Sun Apr 02 14:55:17 PDT 2023
+
+Tue Apr 11 01:17:28 PDT 2023
+created a new event called event2 starting at 9.0
+
+Tue Apr 11 01:17:28 PDT 2023
+added the event event2 to the schedule
+
+Tue Apr 11 01:17:55 PDT 2023
+created a new event called event3 starting at 13.0
+
+Tue Apr 11 01:17:55 PDT 2023
+added the event event3 to the schedule
+
+Tue Apr 11 01:18:03 PDT 2023
+removed the event event from the schedule
+
+Tue Apr 11 01:18:06 PDT 2023
+converted event event2 to a Json object
+
+Tue Apr 11 01:18:06 PDT 2023
 created a json array representing a day schedule
-Sun Apr 02 14:55:17 PDT 2023
+
+Tue Apr 11 01:18:06 PDT 2023
 converted the day schedule to a json object
-Sun Apr 02 14:55:17 PDT 2023
-converted event lil to a Json object
-Sun Apr 02 14:55:17 PDT 2023
-converted event hi to a Json object
-Sun Apr 02 14:55:17 PDT 2023
+
+Tue Apr 11 01:18:06 PDT 2023
+converted event event3 to a Json object
+
+Tue Apr 11 01:18:06 PDT 2023
 created a json array representing a day schedule
-Sun Apr 02 14:55:17 PDT 2023
+
+Tue Apr 11 01:18:06 PDT 2023
 converted the day schedule to a json object
-Sun Apr 02 14:55:17 PDT 2023
-converted event event to a Json object
-Sun Apr 02 14:55:17 PDT 2023
-created a json array representing a day schedule
-Sun Apr 02 14:55:17 PDT 2023
-converted the day schedule to a json object
-Sun Apr 02 14:55:17 PDT 2023
+
+Tue Apr 11 01:18:06 PDT 2023
 created a json array representing a week schedule
-Sun Apr 02 14:55:17 PDT 2023
+
+Tue Apr 11 01:18:06 PDT 2023
 saving schedule by converting the schedule to a Json object
+
 
 
 ### *Phase 4 Task 3* ###
 
-First, I would refactor the PlanningAppGui to make it more cohesive. The class has too many responsibilities and I would probably make each functionality its own class. For example, I would
-have a class that deals with constructing the welcome frame. That class would create the visual frame and have an inner 
-ActionListener class. I would have separate classes that deal with constructing the adding event, removing event,
-viewing schedule, saving schedule, and loading schedule. All these classes would create the buttons that show up on the 
-main menu frame, create the frames that pop up when the button is clicked, and implement the ActionListener within the class.
-The PlanningAppGui would handle the layout of the main menu (the frame that has all the buttons).
-However, all these classes need access to the same instance of Schedule, so the Schedule class would need to be a singleton.
-A possible downside to this is that tests for EventX and Schedule would need to change since a new Schedule can't be 
-instantiated anymore.
+First, I would refactor the PlanningAppGui to make it more cohesive. The class has too many responsibilities and I would
+probably make each functionality its own class. An example would be a class called AddEvent. The constructor would take in
+a component. In this case, the component would be the JPanel of the main frame. This class would create the
+"Add Event" button, add it to the main frame JPanel, and create the inner ActionListener class that creates the AddEvent frame 
+and confirms that the event has been added to the schedule. I would have separate classes for RemoveEvent, SaveSchedule,
+and LoadSchedule, and CreateWelcomeFrame with the similar patterns. Furthermore, for the AddEvent and RemoveEvent classes,
+I would pull out any methods and fields related to creating the frame into its own class. For example, in the AddEvent 
+class, I would pull out all the methods and fields relating to the frame where users input information about an event into
+a separate class, and the AddEvent class would instead, have a single field of that class. Additionally, I would also have
+a separate class dealing with confirming the event as well. I would do something similar with RemoveEvent as well. The 
+other classes seem cohesive on their own. 
 
-Additionally, since both the ViewScheduleAction and RemoveEventAction both involve displaying the schedule, I would abstract 
-parts of this method out. I would probably make an abstract class and have several helper methods in this class. Both the
-ViewScheduleAction and the RemoveEventAction would extend this class. The RemoveEventAction would override one of the helper
-methods related to displaying an individual event so the Select button can be added. Both classes would add their own 
-ActionListener class
+Another thing I noticed is that ViewSchedule and RemoveSchedule have a lot of the same methods, since both classes have a
+view of the schedule. I would make a separate abstract class that contains methods involving creating the visual schedule. The ViewSchedule
+and RemoveSchedule would both extend this class. The abstract method would be the one that involves creating the panel that
+contains information about an event (CreateTimePanel). ViewSchedule and RemoveSchedule would provide their own implementations
+of this since this is the one part that differs in both classes. This would reduce the unnecessary duplication in these
+classes and reduce coupling.
+
+However, all these additional classes need access to the same instance of Schedule, otherwise each action would be performed on a newly
+instantiated schedule that is empty. One way this could be fixed is passing a Schedule as a parameter in the constructor
+of these additional classes in PlanningAppGui, so each class has access to the same schedule and implementing the Action-Listener
+pattern to ensure that if one class makes changes to the schedule, all the classes are notified about this update. However, 
+this would mean that most of these classes are both an observer and a subject, which could reduce cohesion and the single
+responsibility principle. Another solution is to have the Schedule class be a singleton, so it only gets instantiated
+once and every class would have global access to this single instance. A possible downside to this is that tests for EventX
+and Schedule would need to change since a new Schedule can't be instantiated anymore. 
+
+
+

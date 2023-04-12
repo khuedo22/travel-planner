@@ -1,13 +1,28 @@
-{"Week Schedule": [{"Monday": [{
-      "event name": "lab",
-      "end time": 1,
-      "month": "January",
-      "year": 2023,
-      "price": 0,
-      "start time": 1,
-      "weekday": "Monday",
-      "description": "lab",
-      "transportation info": "no info",
-      "day": 1,
-      "additional notes": "no info"
-}]}]}
+{"Week Schedule": [
+      {"Wednesday": [{
+            "event name": "event2",
+            "end time": 10,
+            "month": "January",
+            "year": 2023,
+            "price": 0,
+            "start time": 9,
+            "weekday": "Wednesday",
+            "description": "event2",
+            "transportation info": "no info",
+            "day": 3,
+            "additional notes": "no info"
+      }]},
+      {"Thursday": [{
+            "event name": "event3",
+            "end time": 14,
+            "month": "January",
+            "year": 2023,
+            "price": 0,
+            "start time": 13,
+            "weekday": "Thursday",
+            "description": "event3",
+            "transportation info": "no info",
+            "day": 4,
+            "additional notes": "no info"
+      }]}
+]}
