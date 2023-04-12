@@ -125,6 +125,8 @@ public class PlanningAppGui extends JFrame {
         addEventLog(frame);
     }
 
+    // MODIFIES: frame
+    // EFFECTS: adds WindowListener that logs events to given frame
     private void addEventLog(JFrame frame) {
         frame.addWindowListener(new WindowAdapter() {
             @Override
