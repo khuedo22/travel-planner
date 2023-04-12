@@ -122,7 +122,10 @@ public class PlanningAppGui extends JFrame {
         frame.add(panel);
         frame.setVisible(true);
         frame.setSize(200, 200);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addEventLog(frame);
+    }
+
+    private void addEventLog(JFrame frame) {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -135,6 +138,8 @@ public class PlanningAppGui extends JFrame {
             }
         });
     }
+
+
 
     // actionListener for displaying the events available to remove
 
